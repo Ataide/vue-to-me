@@ -7,9 +7,6 @@ defineProps({
 
 const count = ref(0)
 
-function increment() {
-  return count++;
-}
 </script> 
 
 <template>

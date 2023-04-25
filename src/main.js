@@ -1,6 +1,12 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
 import './assets/css/index.css'
+import VueYtframe from "vue3-ytframe"
+import router from "./routes/index.js";
 
-createApp(App).mount('#app')
+const app = createApp(App);
+app.use(router);
+app.use(VueYtframe);
+app.mount('#app')
+
+

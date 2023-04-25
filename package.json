@@ -9,7 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.47"
+    "agora-rtm-sdk": "^1.6.0-205",
+    "uuid": "^9.0.0",
+    "v-video-embed": "^1.0.8",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6",
+    "vue3-ytframe": "^0.3.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",
