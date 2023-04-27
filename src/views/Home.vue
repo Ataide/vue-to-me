@@ -1,34 +1,50 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="flex h-screen items-center justify-center bg-[#fbfbfb]">
-    <div class="grid w-80 grid-rows-4 gap-1">
-      <p class="font-semibold text-gray-700">
-        GeTTin é uma plataforma de compatilhamento de video com chat.
-      </p>
-      <input
-        v-model="id_video"        
-        type="text"
-        class="h-10 w-full rounded border p-2 text-sm"
-        placeholder="URL do Vídeo (YT)"
-      >
-      <button
-        @click="$router.push({ name: 'room', params: { id: id_video } })"
-      >
-        Agora e nesse
-      </button>
-    </div>
-  </div>
+  <main-hero />
 </template>
 
 <script>
-import { ref } from "vue";
+import { collection, getDocs } from 'firebase/firestore';
+import { onMounted } from "vue";
+import MainHero from "../components/MainHero.vue";
+import { db } from '../firebase/index';
+
+
 
 export default {
+  components: { MainHero },
   setup() {
-    const id_video = ref('');
-    return { id_video };
-  },
-};
+    
+   onMounted( async () => {
+    const querySnapshot = await getDocs(collection(db, 'movies'));
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data())
+    })
+
+   
+    // RoomsService.create({ name: "New Room"})
+    //     .then(() => {
+    //       console.log("Created new item successfully!");
+    //     })
+    //     .catch(e => {
+    //       console.log(e);
+    //     });
+    // axios.post('api/rooms', { name: "Nome da Sala"}).then(res => console.log(res.data))
+
+
+    //  axios.get('api/rooms').then(res => console.log(res.data))
+    
+    // fetch("api/rooms")
+    //   .then(res => console.log(res))
+    //   .then(({ users }) => {
+    //     console.log(users)
+    //   });
+   })
+   
+  }
+}
+
+
 </script>
 
 <style></style>
