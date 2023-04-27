@@ -29,23 +29,8 @@ import BaseContainer from "../components/layout/BaseContainer.vue";
       const uid = ref('');
 
       const route = useRoute();
-      const CHANNEL = route.params.id.split('v=')[1];
-
-      // let messagesRef = ref(null);  
-      // defineExpose({ messagesRef });
-
-      const onStateChange = (event) => {
-        // alert('asd')
-        // if (event.getPlayerState() === 1) {
-        //   // control the frames using the template reference
-        //   yt.value.forEach((video) => {
-        //     if (video.getVideoUrl() !== event.getVideoUrl()) {
-        //       video.pauseVideo()
-        //     }
-        //   })
-        // }
-      }
-
+      const CHANNEL = route.params.id;
+      
       const sendMessage = () => {
         if (text.value === '') return;
         channel.sendMessage({ text: text.value, type: 'text' });
@@ -114,7 +99,7 @@ import BaseContainer from "../components/layout/BaseContainer.vue";
 
 
 
-      return { SvgIcon,faUsers, likes, faHeart, myCustomIcon, APP_ID, CHANNEL, onStateChange, sendMessage, users, messages, uid, yt, text }
+      return { SvgIcon,faUsers, likes, faHeart, myCustomIcon, APP_ID, CHANNEL, sendMessage, users, messages, uid, yt, text }
     }
     
   }
@@ -128,7 +113,6 @@ import BaseContainer from "../components/layout/BaseContainer.vue";
           ref="yt"
           :video-id="CHANNEL"
           :player-vars="{ autoplay: 1, listType: 'user_uploads', controls: 0 }"
-          @state-change="onStateChange"
         />
       </div>
       <div class="">

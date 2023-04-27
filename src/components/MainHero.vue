@@ -76,11 +76,11 @@
             </div>
             <div class="pt-2 sm:pt-0 sm:pl-3 border-t border-gray-200 sm:border-t-0 sm:border-l sm:flex-[1_0_0%] dark:border-gray-700">
               <label
-                for="hs-hero-email-1"
+                for="id_video"
                 class="block text-sm font-medium dark:text-white"
               ><span class="sr-only">Your email address</span></label>
               <input
-                v-model="id_video"
+                v-model="url_video"
                 type="text"
                 class="py-3 px-4 block w-full border-transparent rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 sm:p-4 dark:bg-slate-900 dark:border-transparent dark:text-gray-400"
                 placeholder="URL do video (YT)"
@@ -176,13 +176,14 @@ export default {
   name: 'MainHero',
   setup() {
     const name = ref('');
-    const id_video = ref('');
+    const url_video = ref('');
     const router = useRouter();
+     
 
     const saveRoom = (videoMetaData) => {
       const data = {
         ...videoMetaData,
-        id_video: id_video.value.split('v=')[1],
+        id_video: url_video.value.split('v=')[1],
         likes: 0,
         views: 1,
         published: false
@@ -199,17 +200,20 @@ export default {
     }
 
     const createRoom = () => {
-      if (name.value !== '' && id_video.value !== '') { return; }
-      fetch(`https://www.youtube.com/oembed?url=${id_video.value}&format=json`)
+      if (name.value !== '' && url_video.value !== '') { return; }
+
+      const id_video = url_video.value.split('v=')[1];
+      
+      fetch(`https://www.youtube.com/oembed?url=${url_video.value}&format=json`)
         .then(response => response.json())
         .then(data => {
           saveRoom(data);
         });
-      router.push({ name: 'room', params: { id: id_video.value } })
+      router.push({ name: 'room', params: { id: id_video } })
     }
 
     return {
-      name, id_video, createRoom
+      name, url_video, createRoom
     }
   }
 }
