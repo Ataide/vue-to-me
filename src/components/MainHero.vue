@@ -168,9 +168,9 @@
 <!-- End Hero -->
 </template>
 <script>
-import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import RoomService from '../services/RoomService';
 
 export default {
   name: 'MainHero',
@@ -179,9 +179,32 @@ export default {
     const id_video = ref('');
     const router = useRouter();
 
+    const saveRoom = (videoMetaData) => {
+      const data = {
+        ...videoMetaData,
+        id_video: id_video.value.split('v=')[1],
+        likes: 0,
+        views: 1,
+        published: false
+      };
+
+      RoomService.create(data)
+        .then(() => {
+          console.log("Created new item successfully!");
+          // this.submitted = true;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+
     const createRoom = () => {
       if (name.value !== '' && id_video.value !== '') { return; }
-      axios.post('api/rooms', { name: id_video.value.split('v=')[1] });
+      fetch(`https://www.youtube.com/oembed?url=${id_video.value}&format=json`)
+        .then(response => response.json())
+        .then(data => {
+          saveRoom(data);
+        });
       router.push({ name: 'room', params: { id: id_video.value } })
     }
 

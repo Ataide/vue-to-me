@@ -71,8 +71,8 @@ import BaseContainer from "../components/layout/BaseContainer.vue";
           users.value = value.length;
         });
 
-        const attr =  await channel.getChannelMetadata();
-        console.log(attr);
+        // const attr =  await channel.getChannelMetadata();
+        // console.log(attr);
         
 
         channel.on('ChannelMessage', (message, peerId) => {
