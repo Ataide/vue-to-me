@@ -29,14 +29,11 @@
 1. [Descrição do desafio](#Descrição-desafio)
 2. [Tecnologias](#Tecnologias)
 3. [Instruções de uso](#Instruções-de-uso)
-4. [Requisitos](#Requisitos)
-5. [Documentação REST](#Documentação-REST)
+4. [Desenvolvimento](#Desenvolvimento)
 
 ## Descrição do desafio
 
 O desafio técnico consiste na criação de uma plataforma de criação de salas de chat a partir de um link de um video do youtube. Onde qualquer pessoa pode criar uma sala e esta sala ficará disponível na tela principal da plataforma para que outros usuarios possam interagir com aquela sala e ver o video em questão e mandar messages entre si.
-
-##
 
 ## Tecnologias
 
@@ -69,6 +66,35 @@ yarn dev
 ```
 
 Aplicação local estará disponível em <http://localhost:5173>.
+
+## Desenvolvimento
+
+A Usuario da aplicação pode:
+
+- Criar uma sala a partir de um link de um video do youtube.
+- Visualizar as salas criadas por outros usuario e entrar nessas salas.
+- Visualizar o video da Sala(Só é permitido um video por sala).
+- Visualizar quantas pessoas online tem na sala.
+- Enviar mensagens para as pessoas da Sala.
+- Deixar um Like para a Sala.
+- Visualizar quantas pessoas entraram na sala desde a criação dela.
+- Sair da Sala.
+
+A aplicação foi desenvolvida com Vue, foi optado usar essa tecnologia por ser a utilizada pelo equipe da empresa.
+
+Foi pensado em um layout bem simples e funcional, para isso utilizei o Tailwind CSS para estilizar os componentes e dar uma cara mais elegantes aos elementos visuais.
+
+A aplicação tem duas rotas definidas, uma para a tela inicial onde temos dois inputs com o nome do usuario e o link do video do youtube.
+
+Após preencher o nome e o link do video do youtube, o sistema direciona para a sala de chat onde cria uma instancia do AgoraRTM com o link do video em um iframe para ser assistido juntamente com as pessoas que entrem naquela sala. Pode-se passar tanto o link da sala na barra de endereço quanto a sala fica disponível na tela inicial da aplicação. Isso de deve pelo fato do uso do firestore para persistir os dados da sala e do video.
+
+Logo que alguem entre na sala o chat ficará disponivel onde pode-se enviar messagens entre os usuario daquela sala. Não foi implementado nenhum tipo de cadastro ou authenticação, então qualquer pessoa pode entrar e conversar com um nome anonimo. Para referenciar os usuarios foi criado um concat do nome anonimo com a primeira sequencia do uuid gerado para instanciar o AgoraRTM.
+
+Temos tambem a contagem de views sala. Cada nova instancia do AgoraRTM gerado é uma nova Visualização para a sala. E ainda tem a possibilidade do usuario deixar um like para aquela sala. onde será contabilizado em tempo real com os outros usuarios. Por questão de não haver cadastro, um mesmo usuario pode deixar varios likes para aquela sala.
+
+Toda informação salva é usando o Firestore, que nos da a possibilidade de atualização de informação em tempo real.
+
+O historico de messagens da sala não foi implementado sendo assim cada vez que o usuario sai da sala e entra novamente se perde o historico de menssagens.
 
 ## Contribuidores
 

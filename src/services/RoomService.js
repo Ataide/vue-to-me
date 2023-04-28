@@ -7,6 +7,10 @@ class RoomService {
     return db;
   }
 
+  getByVideoId(id_video) {
+    return db.where("id_video", "==", id_video)
+  }
+
   create(room) {
     return db.add(room);
   }

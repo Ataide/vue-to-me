@@ -1,5 +1,4 @@
-<template>
-  <!-- Hero -->
+<template> 
   <div class="overflow-hidden">
     <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-20">
       <div class="relative mx-auto max-w-4xl grid space-y-5 sm:space-y-10">
@@ -9,12 +8,10 @@
             Developer: Ataide Bastos
           </p>
           <h1 class="text-3xl text-gray-800 font-bold sm:text-5xl lg:text-6xl lg:leading-tight dark:text-gray-200">
-            GeTTin é uma plataforma de compatilhamento de video com chat. <span class="text-blue-500">de video com chat.</span>
+            GeTTin é uma plataforma de compatilhamento <span class="text-blue-500">de video com chat.</span>
           </h1>
         </div>
-        <!-- End Title -->
-
-        <!-- Avatar Group -->
+        
         <div class="sm:flex sm:justify-center sm:items-center text-center sm:text-left">
           <div class="flex-shrink-0 pb-5 sm:flex sm:pb-0 sm:pr-5">
             <!-- Avatar Group -->
@@ -42,8 +39,7 @@
               <span class="inline-flex items-center justify-center h-8 w-8 rounded-full ring-2 ring-white bg-gray-800 dark:bg-gray-900 dark:ring-gray-800">
                 <span class="text-xs font-medium leading-none text-white uppercase">7k+</span>
               </span>
-            </div>
-          <!-- End Avatar Group -->
+            </div>         
           </div>
 
           <div class="border-t sm:border-t-0 sm:border-l border-gray-200 w-32 h-px sm:w-auto sm:h-full mx-auto sm:mx-0" />
@@ -57,9 +53,7 @@
             </div>
           </div>
         </div>
-        <!-- End Avatar Group -->
 
-        <!-- Form -->
         <form>
           <div class="mx-auto max-w-2xl sm:flex sm:space-x-3 p-3 bg-white border rounded-lg shadow-lg shadow-gray-100 dark:bg-slate-900 dark:border-gray-700 dark:shadow-gray-900/[.2]">
             <div class="pb-2 sm:pb-0 sm:flex-[1_0_0%]">
@@ -97,9 +91,7 @@
             </div>
           </div>
         </form>
-        <!-- End Form -->
-
-        <!-- SVG Element -->
+        
         <div
           class="hidden absolute top-2/4 left-0 transform -translate-y-2/4 -translate-x-40 md:block lg:-translate-x-80"
           aria-hidden="true"
@@ -129,9 +121,7 @@
             />
           </svg>
         </div>
-        <!-- End SVG Element -->
-
-        <!-- SVG Element -->
+        
         <div
           class="hidden absolute top-2/4 right-0 transform -translate-y-2/4 translate-x-40 md:block lg:translate-x-80"
           aria-hidden="true"
@@ -161,11 +151,9 @@
             />
           </svg>
         </div>
-      <!-- End SVG Element -->
       </div>
     </div>
   </div>
-<!-- End Hero -->
 </template>
 <script>
 import { ref } from 'vue';
@@ -178,7 +166,6 @@ export default {
     const name = ref('');
     const url_video = ref('');
     const router = useRouter();
-     
 
     const saveRoom = (videoMetaData) => {
       const data = {
