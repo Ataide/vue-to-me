@@ -4,7 +4,7 @@
       <div
         v-for="(room, index) in rooms"
         :key="index" 
-        class="group flex flex-col h-full bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]"
+        class="group flex flex-col h-full bg-white border border-gray-200 shadow-sm rounded-xl "
       >
         <div class="flex flex-col justify-center items-center bg-blue-600 rounded-t-xl">
           <img
@@ -15,17 +15,20 @@
         </div>
       
         <div class="p-4 md:p-6">
-          <span class="block mb-1 text-xs font-semibold uppercase text-blue-600 dark:text-blue-500">
+          <span class="block mb-1 text-xs font-semibold uppercase text-blue-600 ">
             {{ room.author_name }}
             
           </span>
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:hover:text-white">
+          <h3 class="text-xl font-semibold text-gray-800">
             {{ room.title }}
           </h3>
+          <br>
+          <span class="text-sm text-green-800">{{ room.likes }} Like</span>
+          <span class="ml-5 text-sm text-gray-600">{{ room.views }} Vizualizações</span>
         </div>
-        <div class="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-gray-700 dark:divide-gray-700">
+        <div class="mt-auto flex border-t border-gray-200 divide-x divide-gray-200">
           <button
-            class="w-full py-3 px-4 inline-flex justify-center items-center gap-2 rounded-br-xl font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm sm:p-4 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+            class="w-full py-3 px-4 inline-flex justify-center items-center gap-2 rounded-br-xl font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm sm:p-4"
             @click="joinRoom(room.id_video)"
           >
             Entrar na Sala
@@ -58,7 +61,6 @@ import RoomService from "../services/RoomService";
         let _rooms = [];
 
         items.forEach((item) => {
-          console.log(item.data().id)
           let id = item.id;
           let data = item.data();
           _rooms.push(data);

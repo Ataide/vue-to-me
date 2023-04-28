@@ -8,88 +8,93 @@
           :player-vars="{ autoplay: 1, listType: 'user_uploads', controls: 0 }"
         />
       </div>
-      
       <div class="col-span-2 sm:col-span-2 md:col-span-1  w-full">
-        <h5 class="h-10 text-center text-orange-600">
-          {{ CHANNEL }}
-        </h5>
-        <p class="text-sm text-gray-500 m-1">
-          {{ views }} visualizações
-        </p>
-        <button>Testes</button>
-        <div class="flex gap-10 bg-slate-500 text-white p-2">
-          <!-- Icone da quantidades de usuarios na Sala -->
-          <div class="flex items-center ml-2">
-            <svg-icon
-              :fa-icon="faUsers"
-              size="24"
-              viewbox="0 0 24 24"
-            />
-            <p class="ml-2">
-              {{ users }}
-            </p>
-          </div>
-          <!-- Icone do Like -->
+        <div class="panel">
+          <h5 class="h-10 text-center text-orange-600">
+            {{ CHANNEL }}
+          </h5>
+          <p class="text-sm text-gray-500 m-1">
+            {{ views }} visualizações
+          </p>
           <button
-            class="flex items-center"
-            @click="likeVideo"
+            class="m-3"
+            @click="leaveRoom"
           >
-            <svg-icon 
-              class="hover:text-orange-500"
-              :fa-icon="faHeart"
-              size="24"
-              viewbox="0 0 24 24"
-            />
-            <p class="ml-2">
-              {{ likes }}
-            </p>
+            Sair da sala
           </button>
-        </div>
-        <div
-          ref="messagesRef"
-          class="messages"
-        >
-          <div class="inner">
-            <div
-              v-for="(message, index) in messages"
-              :key="index"
-              class="message"
+          <div class="flex gap-10 bg-slate-500 text-white p-2">
+            <!-- Icone da quantidades de usuarios na Sala -->
+            <div class="flex items-center ml-2">
+              <svg-icon
+                :fa-icon="faUsers"
+                size="24"
+                viewbox="0 0 24 24"
+              />
+              <p class="ml-2">
+                {{ users }}
+              </p>
+            </div>
+            <!-- Icone do Like -->
+            <button
+              class="flex items-center"
+              @click="likeVideo"
             >
+              <svg-icon 
+                class="hover:text-orange-500"
+                :fa-icon="faHeart"
+                size="24"
+                viewbox="0 0 24 24"
+              />
+              <p class="ml-2">
+                {{ likes }}
+              </p>
+            </button>
+          </div>
+          <div
+            ref="messagesRef"
+            class="messages"
+          >
+            <div class="inner">
               <div
-                v-if="message.uid === uid"
-                class="user-self"
+                v-for="(message, index) in messages"
+                :key="index"
+                class="message"
               >
-                You:&nbsp;
-              </div>
+                <div
+                  v-if="message.uid === uid"
+                  class="user-self"
+                >
+                  You:&nbsp;
+                </div>
                 
-              <div
-                v-else
-                class="user-them text-right"
-              >
-                Anonimo-{{ message.uid.split('-')[0] }}:&nbsp;
-              </div>
-              <div class="text">
-                {{ message.text }}
+                <div
+                  v-else
+                  class="user-them text-right"
+                >
+                  Anonimo-{{ message.uid.split('-')[0] }}:&nbsp;
+                </div>
+                <div class="text">
+                  {{ message.text }}
+                </div>
               </div>
             </div>
           </div>
-        </div>
   
-        <form @submit.prevent="sendMessage(text)">
-          <input v-model="text">
-          <button>+</button>
-        </form>
+          <form @submit.prevent="sendMessage(text)">
+            <input v-model="text">
+            <button>+</button>
+          </form>
+        </div>
       </div>
     </base-container>
   </div>
 </template>
-
 <script>
 import { faHeart, faUsers } from "@fortawesome/free-solid-svg-icons";
 import AgoraRTM from 'agora-rtm-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import { nextTick, onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue';
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import SvgIcon from "vue3-icon";
 import BaseContainer from "../components/layout/BaseContainer.vue";
 import RoomService from "../services/RoomService";
@@ -115,6 +120,7 @@ import RoomService from "../services/RoomService";
       const unsubscribe = ref(null);
 
       const route = useRoute();
+      const router = useRouter();
       const CHANNEL = route.params.id;
       
       const sendMessage = () => {
@@ -135,17 +141,17 @@ import RoomService from "../services/RoomService";
       const likeVideo = async () => {
         RoomService.update(firestore_id.value, { likes: likes.value + 1})
           .then(() => {
-           console.log("The likes was updated successfully!");
+           console.log("Adicionado Like na Sala");
           })
           .catch((e) => {
             console.log(e);
           });
       }
 
-      const incrementViews = async() => {
+      const incrementViews = async () => {
         RoomService.update(firestore_id.value, { views: views.value + 1})
           .then(() => {
-           console.log("The views was updated successfully!");
+           console.log("Adicionado nova Visualização");
           })
           .catch((e) => {
             console.log(e);
@@ -153,6 +159,7 @@ import RoomService from "../services/RoomService";
       }
 
       const initalizeAgora = async () => {
+        incrementViews();
         await client.login({ uid: uid.value, token: null });
         channel = await client.createChannel(CHANNEL);
         await channel.join();
@@ -176,9 +183,12 @@ import RoomService from "../services/RoomService";
           channel.getMembers().then((value) => {
             users.value = value.length;
           })
-          incrementViews();
         });
 
+      }
+
+      const leaveRoom = () => {
+        router.push('/')
       }
 
       const onDataChange = (item) => {   
@@ -195,13 +205,14 @@ import RoomService from "../services/RoomService";
           uid.value = uuidv4();
           localStorage.uid = uid.value;
         }
-
         unsubscribe.value = RoomService.getByVideoId(CHANNEL).onSnapshot(onDataChange);
-        
         initalizeAgora();
+        
+        setTimeout(() => {
+          incrementViews();
+        }, 1000)
 
       })
-     
 
       onUnmounted( async () => {
         await channel.leave();
@@ -212,7 +223,7 @@ import RoomService from "../services/RoomService";
         unsubscribe.value();
       })
 
-      return { SvgIcon ,faUsers, likeVideo ,views, likes, faHeart, APP_ID, CHANNEL, sendMessage, users, messages, uid, yt, text }
+      return { SvgIcon ,faUsers, leaveRoom, likeVideo ,views, likes, faHeart, APP_ID, CHANNEL, sendMessage, users, messages, uid, yt, text }
     }
   }
 </script>
@@ -224,6 +235,7 @@ import RoomService from "../services/RoomService";
 .panel {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   
   background: rgba(255, 255, 255, 0.7);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
