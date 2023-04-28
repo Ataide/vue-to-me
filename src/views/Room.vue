@@ -11,13 +11,14 @@
       <div class="col-span-2 sm:col-span-2 md:col-span-1  w-full">
         <div class="panel">
           <h5 class="h-10 text-center text-orange-600">
-            {{ CHANNEL }}
+            Sala: {{ CHANNEL }}
           </h5>
           <p class="text-sm text-gray-500 m-1">
             {{ views }} visualizações
           </p>
+          <br>
           <button
-            class="m-3"
+            class="text-red-400 p-2"
             @click="leaveRoom"
           >
             Sair da sala
@@ -112,7 +113,6 @@ import RoomService from "../services/RoomService";
       const firestore_id = ref(null);
       const users = ref(0);
       const likes = ref(0);
-      const isLiked = ref(false);
       const views = ref('');
       const text = ref('');
       const messages = ref([]);
